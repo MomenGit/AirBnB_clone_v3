@@ -14,6 +14,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from models import storage
 import json
 import os
 import pep8
@@ -86,3 +87,18 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorage(unittest.TestCase):
+    """ Test DBStorage """
+
+    def test_get(self):
+        """Test get methon"""
+        new_obj = State()
+        new_obj.save()
+        self.assertIs(storage.get(State, new_obj.id), new_obj)
+
+    def test_count(self):
+        """Test count methon"""
+        self.assertEqual(storage.count(), len(storage.all()))
+        self.assertEqual(storage.count(User), len(storage.all(User)))
