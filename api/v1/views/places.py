@@ -28,7 +28,7 @@ def get_place(place_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route("cities/<city_id>/places", methods=["POST"])
+@app_views.route("/cities/<city_id>/places", methods=["POST"])
 def create_place(city_id):
     """Creates an Place object"""
     city = storage.all(City).get("{}.{}".format(City.__name__, city_id))
