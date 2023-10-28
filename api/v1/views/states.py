@@ -60,7 +60,7 @@ def delete_obj_state(state_id):
 
 
 @app_views.route("/states/<state_id>", methods=['PUT'], strict_slashes=False)
-def delete_obj_state(state_id):
+def edit_obj_state(state_id):
     """Update an object using id"""
     json_data = request.get_json()
     if not json_data:
