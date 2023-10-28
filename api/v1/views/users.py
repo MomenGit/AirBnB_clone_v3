@@ -9,7 +9,7 @@ cls = User
 
 
 @app_views.route("/users", methods=['GET', 'POST'], strict_slashes=False)
-def get_list():
+def get_list_user():
     """Handle '/cls' request"""
     if request.method == 'GET':
         """Retrieves the list of all objects"""
@@ -40,7 +40,7 @@ def get_list():
 
 @app_views.route("/users/<user_id>",
                  methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
-def get_obj(user_id):
+def get_obj_user(user_id):
     """ Handle cls/obj_id requests """
     obj_id = user_id
     if request.method == 'GET':
