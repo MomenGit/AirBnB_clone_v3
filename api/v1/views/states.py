@@ -38,8 +38,9 @@ def get_list():
 
 @app_views.route("/states/<state_id>",
                  methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
-def get_obj(obj_id):
+def get_obj(state_id):
     """ Handle cls/obj_id requests """
+    obj_id = state_id
     if request.method == 'GET':
         """Retrieves an object using id"""
         obj = storage.get(cls, obj_id)
