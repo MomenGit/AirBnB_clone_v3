@@ -130,6 +130,7 @@ def places_search():
                 amenities_list.append(amenity)
 
     # get places that have all amenities
+    result = list()
     for amenity in amenities_list:
         for place in places_list:
             if amenity not in place.amenities:
