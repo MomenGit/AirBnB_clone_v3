@@ -8,11 +8,9 @@ from models import storage
 cls = User
 
 
-@app_views.route("/users", methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route("/users", methods=['GET'], strict_slashes=False)
 def get_list_user():
-    """Handle '/cls' request"""
-    if request.method == 'GET':
-        """Retrieves the list of all objects"""
+    """Retrieves the list of all objects"""
         all_objs = storage.all(cls).values()
         objs_list = list()
 
@@ -20,63 +18,68 @@ def get_list_user():
             objs_list.append(obj.to_dict())
         return jsonify(objs_list)
 
-    if request.method == 'POST':
-        """Create a new object"""
-        json_data = request.get_json()
-        if not json_data:
-            abort(400, description="Not a JSON")
-        if "email" not in json_data:
-            abort(400, description="Missing email")
-        if "password" not in json_data:
-            abort(400, description="Missing password")
 
-        obj = cls(**json_data)
-        obj.save()
+@app_views.route("/users", methods=['POST'], strict_slashes=False)
+def create_new_user():
+    """Create a new object"""
+    json_data = request.get_json()
+    if not json_data:
+        abort(400, description="Not a JSON")
+    if "email" not in json_data:
+        abort(400, description="Missing email")
+    if "password" not in json_data:
+        abort(400, description="Missing password")
 
-        response = make_response(jsonify(obj.to_dict()))
-        response.status_code = 201
-        return response
+    obj = cls(**json_data)
+    obj.save()
+
+    response = make_response(jsonify(obj.to_dict()))
+    response.status_code = 201
+    return response
 
 
 @app_views.route("/users/<user_id>",
-                 methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
+                 methods=['GET'], strict_slashes=False)
 def get_obj_user(user_id):
-    """ Handle cls/obj_id requests """
-    obj_id = user_id
-    if request.method == 'GET':
-        """Retrieves an object using id"""
-        obj = storage.get(cls, obj_id)
-        if obj is None:
-            abort(404)
-        return jsonify(obj.to_dict())
+    """Retrieves an object using id"""
+    obj = storage.get(cls, user_id)
+    if obj is None:
+        abort(404)
+    return jsonify(obj.to_dict())
 
-    if request.method == 'DELETE':
-        """Delete an object using id"""
-        obj = storage.get(cls, obj_id)
-        if obj is None:
-            abort(404)
 
-        storage.delete(obj)
-        storage.save()
-        response = make_response(jsonify({}))
-        response.status_code = 200
-        return response
+@app_views.route("/users/<user_id>",
+                 methods=['DELETE'], strict_slashes=False)
+def delete_obj_user(user_id):
+    """Delete an object using id"""
+    obj = storage.get(cls, user_id)
+    if obj is None:
+        abort(404)
 
-    if request.method == 'PUT':
-        """Update an object using id"""
-        json_data = request.get_json()
-        if not json_data:
-            abort(400, description="Not a JSON")
+    storage.delete(obj)
+    storage.save()
+    response = make_response(jsonify({}))
+    response.status_code = 200
+    return response
 
-        obj = storage.get(cls, obj_id)
-        if obj is None:
-            abort(404)
 
-        for key, value in json_data.items():
-            if key not in ['id', 'email', 'created_at', 'updated_at']:
-                setattr(obj, key, value)
-        storage.save()
+@app_views.route("/users/<user_id>",
+                 methods=['PUT'], strict_slashes=False)
+def edit_obj_user(user_id):
+    """Update an object using id"""
+    json_data = request.get_json()
+    if not json_data:
+        abort(400, description="Not a JSON")
 
-        response = make_response(jsonify(obj.to_dict()))
-        response.status_code = 200
-        return response
+    obj = storage.get(cls, user_id)
+    if obj is None:
+        abort(404)
+
+    for key, value in json_data.items():
+        if key not in ['id', 'email', 'created_at', 'updated_at']:
+            setattr(obj, key, value)
+    storage.save()
+
+    response = make_response(jsonify(obj.to_dict()))
+    response.status_code = 200
+    return response
