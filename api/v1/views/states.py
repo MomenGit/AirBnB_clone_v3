@@ -68,7 +68,7 @@ def get_obj(obj_id):
             abort(404)
 
         for key, value in json_data.items():
-            if key is not in ['id', 'created_at', 'updated_at']:
+            if key not in ['id', 'created_at', 'updated_at']:
                 setattr(obj, key, value)
         storage.save()
 
