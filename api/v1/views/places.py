@@ -66,7 +66,7 @@ def update_place(place_id):
             setattr(place, key, value)
 
     place.save()
-    return jsonify(place.to_dict()), 201
+    return jsonify(place.to_dict()), 200
 
 
 @app_views.route("/places/<place_id>", methods=["DELETE"])
