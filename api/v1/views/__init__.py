@@ -9,5 +9,6 @@ from .states import *
 from .cities import *
 from .amenities import *
 from .users import *
+from .places import *
 from .places_reviews import *
 from .places_amenities import *
