@@ -9,16 +9,16 @@ from models.amenity import Amenity
 @app_views.route("/amenities", methods=["GET"])
 def get_amenities():
     """Retrieves the list of all Amenity objects"""
-    amenities = list(storage.all(Amenity).values())
-    for i in range(len(amenities)):
-        amenities[i] = amenities[i].to_dict()
+    amenities = [amenity.to_dict()
+                 for amenity in storage.all(Amenity).values()]
+
     return jsonify(amenities)
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET"])
 def get_amenity(amenity_id):
     """Retrieves an Amenity object using its id"""
-    amenity = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     amenity = amenity.to_dict()
@@ -44,7 +44,7 @@ def create_amenity():
 @app_views.route("/amenities/<amenity_id>", methods=["PUT"])
 def update_amenity(amenity_id):
     """Update an Amenity object using its id"""
-    amenity = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
 
@@ -63,7 +63,7 @@ def update_amenity(amenity_id):
 @app_views.route("/amenities/<amenity_id>", methods=["DELETE"])
 def delete_amenity(amenity_id):
     """Deletes an Amenity object using its id"""
-    amenity = storage.all(Amenity).get("Amenity.{}".format(amenity_id))
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
 
