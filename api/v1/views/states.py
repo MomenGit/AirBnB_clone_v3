@@ -8,7 +8,7 @@ from models import storage
 cls = State
 
 
-@app_views.route("/states", methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route("/states", methods=['GET'], strict_slashes=False)
 def get_list():
     """Retrieves the list of all objects"""
     all_objs = storage.all(cls).values()
