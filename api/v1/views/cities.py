@@ -10,15 +10,15 @@ from models import storage
 @app_views.route("/states/<string:state_id>/cities",
                  methods=['GET'], strict_slashes=False)
 def get_list_city(state_id):
-      """Retrieves the list of all objects"""
-      obj = storage.get(State, state_id)
-      if obj is None:
-          abort(404)
-      all_objs = obj.cities
-      objs_list = list()
-      for obj in all_objs:
-          objs_list.append(obj.to_dict())
-      return jsonify(objs_list)
+    """Retrieves the list of all objects"""
+    obj = storage.get(State, state_id)
+    if obj is None:
+        abort(404)
+    all_objs = obj.cities
+    objs_list = list()
+    for obj in all_objs:
+        objs_list.append(obj.to_dict())
+    return jsonify(objs_list)
 
 
 @app_views.route("/states/<string:state_id>/cities",
