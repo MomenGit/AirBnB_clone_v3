@@ -8,7 +8,7 @@ from models import storage
 cls = State
 
 
-@app_views.route("/states", methods=['GET', 'POST'])
+@app_views.route("/states", methods=['GET', 'POST'], strict_slashes=False)
 def get_list():
     """Handle '/cls' request"""
     if request.method == 'GET':
@@ -36,7 +36,8 @@ def get_list():
         return response
 
 
-@app_views.route("/states/<state_id>", methods=['GET', 'DELETE', 'PUT'])
+@app_views.route("/states/<state_id>",
+                 methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
 def get_obj(obj_id):
     """ Handle cls/obj_id requests """
     if request.method == 'GET':
