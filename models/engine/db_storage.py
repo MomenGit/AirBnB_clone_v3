@@ -88,7 +88,7 @@ class DBStorage:
             return None
 
         obj_key = cls.__name__ + '.' + id
-        obj = self.__objects.get(obj_key)
+        obj = self.all(cls).get(obj_key)
         return (obj)
 
     def count(self, cls=None):
