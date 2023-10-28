@@ -99,11 +99,11 @@ def places_search():
         len(states_data) == 0 and
         len(cities_data) == 0 and
         len(amenities_data) == 0):
-        all_places = storage.all(Place).values()
-        places_list = list()
-        for place in all_places:
-            places_list.append(place.to_dict())
-        return (jsonify(places_list))
+            all_places = storage.all(Place).values()
+            places_list = list()
+            for place in all_places:
+                places_list.append(place.to_dict())
+            return (jsonify(places_list))
 
     cities_list = list()
     places_list = list()
@@ -129,5 +129,5 @@ def places_search():
                 for place in places_list:
                     if amenity not in place.amenities:
                         places_list.remove(place)
-    result =  [place.to_dict() for place in places_list]   
+    result = [place.to_dict() for place in places_list]
     return (jsonify(result))    
