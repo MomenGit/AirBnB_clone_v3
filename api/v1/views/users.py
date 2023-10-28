@@ -11,12 +11,12 @@ cls = User
 @app_views.route("/users", methods=['GET'], strict_slashes=False)
 def get_list_user():
     """Retrieves the list of all objects"""
-        all_objs = storage.all(cls).values()
-        objs_list = list()
+    all_objs = storage.all(cls).values()
+    objs_list = list()
 
-        for obj in all_objs:
-            objs_list.append(obj.to_dict())
-        return jsonify(objs_list)
+    for obj in all_objs:
+        objs_list.append(obj.to_dict())
+    return jsonify(objs_list)
 
 
 @app_views.route("/users", methods=['POST'], strict_slashes=False)
