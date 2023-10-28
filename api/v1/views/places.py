@@ -131,9 +131,11 @@ def places_search():
 
     # get places that have all amenities
     result = list()
+    """
     for amenity in amenities_list:
         for place in places_list:
             if amenity not in place.amenities:
                 places_list.remove(place)
+    """
     result = [place.to_dict() for place in places_list]
     return (jsonify(result))
