@@ -55,6 +55,7 @@ def get_obj(state_id):
             abort(404)
 
         storage.delete(obj)
+        storage.save()
         response = make_response(jsonify({}))
         response.status_code = 200
         return response
