@@ -123,7 +123,7 @@ def places_search():
                 city = storage.get(City, city_id)
                 if city:
                     cities_list.append(city)
-    
+
         # Add places in cities to places list
         for city in cities_list:
             places_list.extend(city.places)
