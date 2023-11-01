@@ -95,48 +95,53 @@ def places_search():
     states_data = data.get('states', [])
     cities_data = data.get('cities', [])
     amenities_data = data.get('amenities', [])
-    if (len(data) == 0) or (len(states_data) == 0 and
-            len(cities_data) == 0):
+    if ((len(data) == 0) or (len(states_data) == 0 and
+                             len(cities_data) == 0 and
+                             len(states_data) == 0)):
+        all_places = storage.all(Place).values()
+        places_list = list()
+        for place in all_places:
+            places_list.append(place.to_dict())
+        return (jsonify(places_list))
+
+    if (len(states_data) == 0 and len(cities_data) == 0):
         all_places = storage.all(Place).values()
         places_list = list()
         places_list.extend(all_places)
-        # for place in all_places:
-        #     places_list.append(place.to_dict())
-        # return (jsonify(places_list))
+    else:
+        cities_list = list()
+        places_list = list()
+        amenities_list = list()
+        # add cities in states to cities list
+        if len(states_data) != 0:
+            for state_id in states_data:
+                state = storage.get(State, state_id)
+                if state:
+                    cities_list.extend(state.cities)
+        if len(cities_data) != 0:
+            for city_id in cities_data:
+                city = storage.get(City, city_id)
+                if city:
+                    cities_list.append(city)
+    
+        # Add places in cities to places list
+        for city in cities_list:
+            places_list.extend(city.places)
 
-    cities_list = list()
-    places_list = list()
-    amenities_list = list()
-    # add cities in states to cities list
-    if len(states_data) != 0:
-        for state_id in states_data:
-            state = storage.get(State, state_id)
-            if state:
-                cities_list.extend(state.cities)
-    if len(cities_data) != 0:
-        for city_id in cities_data:
-            city = storage.get(City, city_id)
-            if city:
-                cities_list.append(city)
-
-    # Add places in cities to places list
-    for city in cities_list:
-        places_list.extend(city.places)
-
+    result = list()
     # get ameniteies
     if len(amenities_data) != 0:
         for amenity_id in amenities_data:
             amenity = storage.get(Amenity, amenity_id)
             if amenity:
                 amenities_list.append(amenity)
-
-    # get places that have all amenities
-    result = list()
-    for place in places_list:
-        result.append(place.to_dict())
-        for amenity in amenities_list:
-            if amenity not in place.amenities:
-                result.pop()
-                break
-    # result = [place.to_dict() for place in places_list]
+        # get places that have all amenities
+        for place in places_list:
+            result.append(place.to_dict())
+            for amenity in amenities_list:
+                if amenity not in place.amenities:
+                    result.pop()
+                    break
+    else:
+        result = [place.to_dict() for place in places_list]
     return (jsonify(result))
