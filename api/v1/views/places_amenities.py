@@ -26,7 +26,7 @@ def link_place_amenity(place_id, amenity_id):
     if place is None:
         abort(404)
     amenity = storage.get(Amenity, amenity_id)
-    if Amenity is None:
+    if amenity is None:
         abort(404)
     linked = False
     if storage_t == "db":
@@ -52,7 +52,6 @@ def delete_place_amenity(place_id, amenity_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    amenity = None
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
