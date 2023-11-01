@@ -53,7 +53,7 @@ def delete_place_amenity(place_id, amenity_id):
     if place is None:
         abort(404)
     amenity = storage.get(Amenity, amenity_id)
-    if Amenity is None:
+    if amenity is None:
         abort(404)
     if storage_t == "db":
         if amenity not in place.amenities:
