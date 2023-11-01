@@ -99,9 +99,10 @@ def places_search():
             len(cities_data) == 0):
         all_places = storage.all(Place).values()
         places_list = list()
-        for place in all_places:
-            places_list.append(place.to_dict())
-        return (jsonify(places_list))
+        places_list.extend(all_places)
+        # for place in all_places:
+        #     places_list.append(place.to_dict())
+        # return (jsonify(places_list))
 
     cities_list = list()
     places_list = list()
