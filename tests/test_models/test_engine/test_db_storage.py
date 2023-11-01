@@ -94,7 +94,7 @@ class TestDBStorage(unittest.TestCase):
 
     def test_get(self):
         """Test get methon"""
-        new_obj = State()
+        new_obj = State(name="newState")
         new_obj.save()
         self.assertIs(storage.get(State, new_obj.id), new_obj)
 
