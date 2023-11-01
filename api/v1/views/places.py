@@ -95,7 +95,7 @@ def places_search():
     states_data = data.get('states', [])
     cities_data = data.get('cities', [])
     amenities_data = data.get('amenities', [])
-    if (len(data) == 0 and len(states_data) == 0 and
+    if (len(data) == 0) or (len(states_data) == 0 and
             len(cities_data) == 0):
         all_places = storage.all(Place).values()
         places_list = list()
